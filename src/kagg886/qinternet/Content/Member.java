@@ -13,8 +13,7 @@ public class Member extends Person
     protected Permission p;
     
     public Member(long groupid,long uin, String uinName,String nick,Permission p,MemberAPI api) {
-        this.uin = uin;
-        this.uinName = uinName;
+		super(uin,uinName);
         this.p = p;
         this.api = api;
         this.nick = nick;
