@@ -3,6 +3,7 @@ import kagg886.qinternet.Interface.MemberAPI;
 import kagg886.qinternet.exceptions.PermissionException;
 public class Member extends Person
 {
+	protected long groupid;
     protected MemberAPI api;
     protected String nick;
     public static enum Permission {
@@ -11,12 +12,13 @@ public class Member extends Person
     
     protected Permission p;
     
-    public Member(long uin, String uinName,String nick,Permission p,MemberAPI api) {
+    public Member(long groupid,long uin, String uinName,String nick,Permission p,MemberAPI api) {
         this.uin = uin;
         this.uinName = uinName;
         this.p = p;
         this.api = api;
         this.nick = nick;
+		this.groupid = groupid;
     }
     
     public String getNick() {
@@ -27,7 +29,19 @@ public class Member extends Person
         return p;
     }
     
-    public MemberAPI getAPI() {
-        return api;
-    }
+    public void mute(int second) throws PermissionException {
+		api.mute(groupid,uin,second);
+	}
+	
+	public void kick() throws PermissionException {
+		api.kick(groupid,uin);
+	}
+	
+	public void sendLike(int count) {
+		api.sendLike(0L,uin,count);
+	}
+	
+	public void setNick(String nick) throws PermissionException {
+		api.setNick(groupid,uin,nick);
+	}
 }
