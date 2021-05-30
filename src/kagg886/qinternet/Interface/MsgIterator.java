@@ -6,4 +6,5 @@ public interface MsgIterator
     void onImage(String imgUrl);
     void onXml(String xml);
     void onJson(String json);
+	void onPtt(String pttUrl);
 }

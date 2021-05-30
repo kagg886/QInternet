@@ -4,13 +4,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.Random;
 import kagg886.qinternet.Interface.MsgIterator;
+import java.util.ArrayList;
 
 public class MsgCollection extends JSONArray
 {
     private static final Random r = new Random();
 	
 	public static enum MsgType {
-		text,img,xml,json;
+		text,img,xml,json,ptt,at;
 	}
 	
 	public MsgCollection() {
@@ -20,7 +21,15 @@ public class MsgCollection extends JSONArray
     public MsgCollection(String json) throws JSONException {
         super(json);
     }
+	
+	public void putAt(long at) {
+		putElement(MsgType.at,String.valueOf(at));
+	}
     
+	public void putPtt(String pttUrl) {
+		putElement(MsgType.ptt,pttUrl);
+	}
+	
     public void putText(String Text) {
         putElement(MsgType.text,Text);
     }
@@ -36,6 +45,10 @@ public class MsgCollection extends JSONArray
     public void putImage(String imgUrl) {
         putElement(MsgType.img,imgUrl);
     }
+	
+	public String getPtt() {
+		return search(MsgType.ptt);
+	}
     
     public String getJSON() {
         return search(MsgType.json);
@@ -44,6 +57,22 @@ public class MsgCollection extends JSONArray
     public String getXml() {
         return search(MsgType.xml);
     }
+	
+	public ArrayList<Long> getAt() {
+		ArrayList<Long> in = new ArrayList<Long>();
+		JSONObject obj;
+        for (int i = 0; i < this.length(); i++) {
+            try {
+                obj = this.getJSONObject(i);
+                if (obj.getString("type").equals(MsgType.at.toString())) {
+                    in.add(Long.parseLong(obj.getString("value")));
+                }
+
+            } catch (JSONException e) {}
+        }
+        obj = null;
+        return in;
+	}
     
     public String getTexts() {
         return search(MsgType.text);
@@ -66,6 +95,9 @@ public class MsgCollection extends JSONArray
                         break;
                     case "img":
 						it.onImage(obj.getString("value"));
+						break;
+					case "ptt":
+						it.onPtt(obj.getString("value"));
 						break;
                 }
 
