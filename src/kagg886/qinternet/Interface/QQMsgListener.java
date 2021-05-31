@@ -1,9 +1,11 @@
 package kagg886.qinternet.Interface;
 import kagg886.qinternet.Message.GroupMsgPack;
-import kagg886.qinternet.Message.GroupMemberEnterPack;
+import kagg886.qinternet.Message.GroupMemberApplicationPack;
+import kagg886.qinternet.Message.GroupMemberPack;
 
 public interface QQMsgListener
 {
-    void onGroupMsg(GroupMsgPack msg);
-	void onGroupEnterApplication(GroupMemberEnterPack pack)
+	void onMemberMsg(GroupMemberPack msg)
+    void onGroupMsg(GroupMsgPack msg)
+	void onGroupEnterApplication(GroupMemberApplicationPack msg)
 }

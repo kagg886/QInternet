@@ -4,13 +4,13 @@ import kagg886.qinternet.Content.Group;
 import kagg886.qinternet.Content.Person;
 import kagg886.qinternet.Interface.GroupEnterAPI;
 
-public class GroupMemberEnterPack 
+public class GroupMemberApplicationPack 
 {
 	protected Group g;
     protected Person p;
 	protected GroupEnterAPI api;
 	protected String application;
-    public GroupMemberEnterPack(Group g,Person p,String applicationText,GroupEnterAPI api) {
+    public GroupMemberApplicationPack(Group g,Person p,String applicationText,GroupEnterAPI api) {
         this.g = g;
         this.p = p;
         this.api = api;

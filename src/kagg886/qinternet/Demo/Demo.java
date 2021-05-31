@@ -1,16 +1,22 @@
 package kagg886.qinternet.Demo;
 import kagg886.qinternet.Interface.QQMsgListener;
 import kagg886.qinternet.Message.GroupMsgPack;
-import kagg886.qinternet.Message.GroupMemberEnterPack;
+import kagg886.qinternet.Message.GroupMemberApplicationPack;
 import kagg886.qinternet.exceptions.PermissionException;
 import kagg886.qinternet.Message.MsgCollection;
 import kagg886.qinternet.Message.MsgSpawner;
+import kagg886.qinternet.Message.GroupMemberPack;
 
 public class Demo implements QQMsgListener
 {
 
 	@Override
-	public void onGroupEnterApplication(GroupMemberEnterPack pack) {
+	public void onMemberMsg(GroupMemberPack msg) {
+	}
+	
+
+	@Override
+	public void onGroupEnterApplication(GroupMemberApplicationPack pack) {
 		pack.agree();
 	}
 
