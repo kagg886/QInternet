@@ -27,11 +27,11 @@ public class GroupMemberApplicationPack
     }
 	
 	public void agree() {
-		api.agree(g.getId());
+		api.agree();
 	}
 	
 	public void reject(String reason) {
-		api.reject(g.getId(),reason);
+		api.reject(reason);
 	}
 	
 	public String getApplicatonText() {
