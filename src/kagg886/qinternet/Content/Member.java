@@ -12,8 +12,8 @@ public class Member extends Person
     
     protected Permission p;
     
-    public Member(long groupid,long uin, String uinName,String nick,Permission p) {
-		super(uin,uinName);
+    public Member(long botQQ,long groupid,long uin, String uinName,int age,Sex sex,String area,String nick,Permission p) {
+		super(botQQ,uin,uinName,age,sex,area);
         this.p = p;
         this.nick = nick;
 		this.groupid = groupid;
@@ -28,18 +28,18 @@ public class Member extends Person
     }
     
     public void mute(int second) throws PermissionException {
-		QInternet.getMemberAPI().mute(groupid,uin,second);
+		getMemberAPI().mute(groupid,uin,second);
 	}
 	
 	public void kick() throws PermissionException {
-		QInternet.getMemberAPI().kick(groupid,uin);
+		getMemberAPI().kick(groupid,uin);
 	}
 	
 	public void sendLike(int count) {
-		QInternet.getMemberAPI().sendLike(0L,uin,count);
+		getMemberAPI().sendLike(0L,uin,count);
 	}
 	
 	public void setNick(String nick) throws PermissionException {
-		QInternet.getMemberAPI().setNick(groupid,uin,nick);
+		getMemberAPI().setNick(groupid,uin,nick);
 	}
 }

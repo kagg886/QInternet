@@ -4,12 +4,13 @@ import kagg886.qinternet.Message.MsgCollection;
 import kagg886.qinternet.exceptions.PermissionException;
 import kagg886.qinternet.QInternet;
 
-public class Group
+public class Group extends Content
 {
     protected long groupId;
     protected String groupName;
     
-    public Group(long g,String n) {
+    public Group(long BotQQ,long g,String n) {
+		super(BotQQ);
         this.groupId = g;
         this.groupName = n;
     }
@@ -23,14 +24,14 @@ public class Group
     }
 	
 	public void exit() {
-		QInternet.getGroupAPI().exit(groupId);
+		getGroupAPI().exit(groupId);
 	}
 	
 	public void setMute(boolean status) throws PermissionException {
-		QInternet.getGroupAPI().setAllmute(groupId,status);
+		getGroupAPI().setAllmute(groupId,status);
 	}
 	
 	public void sendMsg(MsgCollection co) {
-		QInternet.getGroupAPI().sendMsg(groupId,co);
+		getGroupAPI().sendMsg(groupId,co);
 	}
 }

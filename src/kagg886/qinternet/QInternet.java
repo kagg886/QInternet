@@ -3,26 +3,55 @@ package kagg886.qinternet;
 import kagg886.qinternet.Interface.API;
 import kagg886.qinternet.Interface.GroupAPI;
 import kagg886.qinternet.Interface.MemberAPI;
+import java.util.HashMap;
 
 public final class QInternet 
 {
 	public static final String Author =  "kagg886";
-	public static final String Version = "dev-20210604";
-	private static API groupAPI,memberAPI;
+	public static final String Version = "dev-20210605";
+	private static HashMap<Long,HashMap<String,API>> apis = new HashMap<Long,HashMap<String,API>>();  
 	
-	public static void initGroupAPI(GroupAPI api1) {
-		groupAPI = api1;
+	public static enum APIType {
+		GROUPAPI,MEMBERAPI;
 	}
 	
-	public static void initMemberAPI(GroupAPI api1) {
-		memberAPI = api1;
+	public static void initGroupAPI(long QQ,GroupAPI api1) {
+		putAPI(APIType.GROUPAPI,QQ,api1);
 	}
 	
-	public static GroupAPI getGroupAPI() {
-		return (GroupAPI) groupAPI;
+	public static void initMemberAPI(long QQ,GroupAPI api1) {
+		putAPI(APIType.MEMBERAPI,QQ,api1);
 	}
 	
-	public static MemberAPI getMemberAPI() {
-		return (MemberAPI) memberAPI;
+	public static GroupAPI getGroupAPI(long QQ) {
+		return (GroupAPI) getAPI(QQ,APIType.GROUPAPI);
 	}
+	
+	public static MemberAPI getMemberAPI(long QQ) {
+		return (MemberAPI) getAPI(QQ,APIType.MEMBERAPI);
+	}
+	
+	
+	private static void putAPI(APIType key,long QQ,API api1) {
+		HashMap<String,API> api;
+		if (apis.containsKey(QQ)) {
+			api = apis.get(QQ);
+		} else {
+			api = new HashMap<String,API>();
+		}
+		api.put(key.toString(),api1);
+		apis.put(QQ,api);
+	}
+	
+	private static API getAPI(long QQ,APIType type) {
+		HashMap<String,API> api;
+		if (apis.containsKey(QQ)) {
+			api = apis.get(QQ);
+		} else {
+			return null;
+		}
+		
+		return api.get(type.toString());
+	}
+	
 }
