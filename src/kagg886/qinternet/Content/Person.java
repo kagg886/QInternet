@@ -28,4 +28,16 @@ public class Person extends Content
     public String getUinName() {
         return uinName;
     }
+	
+	public int getAge() {
+		return age;
+	}
+	
+	public Sex getSex() {
+		return sex;
+	}
+	
+	public String getArea() {
+		return area;
+	}
 }

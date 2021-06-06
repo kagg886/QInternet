@@ -2,6 +2,7 @@ package kagg886.qinternet.Content;
 import kagg886.qinternet.Interface.GroupAPI;
 import kagg886.qinternet.QInternet;
 import kagg886.qinternet.Interface.MemberAPI;
+import kagg886.qinternet.Interface.FriendAPI;
 
 public class Content
 {
@@ -16,5 +17,9 @@ public class Content
 	
 	public MemberAPI getMemberAPI() {
 		return QInternet.getMemberAPI(BotQQ);
+	}
+	
+	public FriendAPI getFriendAPI() {
+		return QInternet.getFriendAPI(BotQQ);
 	}
 }

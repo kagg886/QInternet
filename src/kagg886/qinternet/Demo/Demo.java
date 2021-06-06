@@ -6,12 +6,20 @@ import kagg886.qinternet.exceptions.PermissionException;
 import kagg886.qinternet.Message.MsgCollection;
 import kagg886.qinternet.Message.MsgSpawner;
 import kagg886.qinternet.Message.GroupMemberPack;
+import kagg886.qinternet.Message.FriendMsgPack;
 
 public class Demo implements QQMsgListener
 {
 
 	@Override
+	public void onFriendMsg(FriendMsgPack msg) {
+		msg.getFriend().sendMsg(msg.getMessage());
+	}
+
+
+	@Override
 	public void onMemberMsg(GroupMemberPack msg) {
+		
 	}
 	
 
