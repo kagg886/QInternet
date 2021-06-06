@@ -5,7 +5,7 @@ import kagg886.qinternet.Message.GroupMemberPack;
 
 public interface QQMsgListener
 {
-	void onMemberMsg(GroupMemberPack msg)
-    void onGroupMsg(GroupMsgPack msg)
-	void onGroupEnterApplication(GroupMemberApplicationPack msg)
+	void onMemberMsg(GroupMemberPack msg);
+    void onGroupMsg(GroupMsgPack msg);
+	void onGroupEnterApplication(GroupMemberApplicationPack msg);
 }
