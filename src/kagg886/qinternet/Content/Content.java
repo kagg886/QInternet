@@ -12,14 +12,14 @@ public class Content
 	}
 	
 	public GroupAPI getGroupAPI() {
-		return QInternet.getGroupAPI(BotQQ);
+		return QInternet.getAPI(BotQQ,QInternet.APIType.GROUPAPI);
 	}
 	
 	public MemberAPI getMemberAPI() {
-		return QInternet.getMemberAPI(BotQQ);
+		return QInternet.getAPI(BotQQ,QInternet.APIType.MEMBERAPI);
 	}
 	
 	public FriendAPI getFriendAPI() {
-		return QInternet.getFriendAPI(BotQQ);
+		return QInternet.getAPI(BotQQ,QInternet.APIType.FRIENDAPI);
 	}
 }
