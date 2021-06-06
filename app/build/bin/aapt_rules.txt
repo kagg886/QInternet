@@ -1,0 +1,6 @@
+# view AndroidManifest.xml #generated:27
+-keep class com.QR.Plugin.MainActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:53
+-keep class com.QR.Plugin.PluginProcessing { <init>(...); }
+
