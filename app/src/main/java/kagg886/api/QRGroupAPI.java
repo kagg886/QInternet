@@ -33,26 +33,27 @@ public class QRGroupAPI implements GroupAPI {
 
 	@Override
 	public Member getMember(long p1, long p2) {
-		MemberInfo info = FastAPI.getMemberInfo(p1,p2);
-		PluginMsg log = new PluginMsg();
-		log.type = 20;
-		log.groupid = p1;
-		log = PluginProcessing.send(log);
-	    Member.Permission m = null;
-		for (String l : log.data.get(0).get("admin")) {
-			if (p2 == Long.parseLong(l)) {
-				m = Member.Permission.ADMIN;
-				break;
-			}
-			m = Member.Permission.MEMBER;
-			
-		}
-		return new Member(qq,p1,p2,
-		info.getName(),
-		info.getAge(),
-		Person.Sex.GIRL,info.getArea(),
-		info.getNick(),
-		m);
+//		MemberInfo info = FastAPI.getMemberInfo(p1,p2);
+//		PluginMsg log = new PluginMsg();
+//		log.type = 20;
+//		log.groupid = p1;
+//		log = PluginProcessing.send(log);
+//	    Member.Permission m = null;
+//		for (String l : log.data.get(0).get("admin")) {
+//			if (p2 == Long.parseLong(l)) {
+//				m = Member.Permission.ADMIN;
+//				break;
+//			}
+//			m = Member.Permission.MEMBER;
+//			
+//		}
+//		return new Member(qq,p1,p2,
+//		info.getName(),
+//		info.getAge(),
+//		Person.Sex.GIRL,info.getArea(),
+//		info.getNick(),
+//		m);
+		return null;
 	}
 
 	@Override
