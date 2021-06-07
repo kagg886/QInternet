@@ -7,6 +7,7 @@ import kagg886.qinternet.Message.GroupMemberEnterPack;
 import kagg886.qinternet.Message.GroupMemberPack;
 import kagg886.qinternet.Message.FriendMsgPack;
 import kagg886.qinternet.Message.GroupMemberApplicationPack;
+import kagg886.qinternet.Message.MsgSpawner;
 
 public class QIScript implements QQMsgListener {
 
@@ -21,6 +22,9 @@ public class QIScript implements QQMsgListener {
 
 	@Override
 	public void onMemberMsg(GroupMemberPack p1) {
+		if (p1.getType() == GroupMemberPack.Type.kick) {
+			
+		}
 	}
 	
 

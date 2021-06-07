@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: /storage/emulated/0/AppProjects/QRPlugin/app/src/main/aidl/com/QR/aidl/AppInterface.aidl
+ * Original file: /storage/emulated/0/AppProjects/QInternet/app/src/main/aidl/com/QR/aidl/AppInterface.aidl
  */
 package com.QR.aidl;
 public interface AppInterface extends android.os.IInterface

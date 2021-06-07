@@ -12,7 +12,10 @@ import android.os.RemoteException;
 import com.QR.MsgApi.PluginMsg;
 import com.QR.aidl.AppInterface.Stub;
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import kagg886.HydrogenPlugin.Message.FastPluginMsg;
 import kagg886.QIScript;
 import kagg886.api.QRFriendAPI;
 import kagg886.api.QRGroupAPI;
@@ -21,12 +24,16 @@ import kagg886.qinternet.Content.Friend;
 import kagg886.qinternet.Content.Group;
 import kagg886.qinternet.Content.Member;
 import kagg886.qinternet.Content.Person;
+import kagg886.qinternet.Interface.GroupAPI;
 import kagg886.qinternet.Interface.GroupEnterAPI;
 import kagg886.qinternet.Message.FriendMsgPack;
 import kagg886.qinternet.Message.GroupMemberApplicationPack;
 import kagg886.qinternet.Message.GroupMsgPack;
 import kagg886.qinternet.Message.MsgCollection;
 import kagg886.qinternet.QInternet;
+import kagg886.qinternet.Message.GroupMemberEnterPack;
+import kagg886.qinternet.Message.GroupMemberPack;
+import kagg886.qinternet.exceptions.IllegalInputVarException;
 
 public class PluginProcessing extends Service
 {
@@ -40,26 +47,40 @@ public class PluginProcessing extends Service
 		 */
 		@Override
 		public void onMessageHandler(final PluginMsg p) throws RemoteException {
+			
 			if (p.type == PluginMsg.TYPE_BYDDY_MSG) {
 				Friend f = new Friend(bot,p.uin,p.uinName,6,Person.Sex.GIRL,null);
-				MsgCollection c = new MsgCollection();
-				c.putText(p.getTextMsg());
+				MsgCollection c = getMsg(p);
 				FriendMsgPack k = new FriendMsgPack(f,c);
 				q.onFriendMsg(k);
 			}
 		    if (p.type == PluginMsg.TYPE_GROUP_MSG) {
 				Group g = new Group(bot,p.groupid,p.groupName);
-				Member m = new Member(bot,p.groupid,p.uin,p.uinName,6,Person.Sex.BOY,null,null,Member.Permission.ADMIN);
-				MsgCollection c = new MsgCollection();
-				c.putText(p.getTextMsg());
+				Member m = ((GroupAPI) QInternet.getAPI(bot,QInternet.APIType.GROUPAPI)).getMember(p.groupid,p.uin);
+				MsgCollection c = getMsg(p);
 				GroupMsgPack gp = new GroupMsgPack(g,m,c);
 				q.onGroupMsg(gp);
+			}
+			
+			if (p.type == 26) {
+				try {
+				Group g = new Group(bot,p.groupid,p.groupName);
+				Person bt = new Person(bot,p.uin,p.uinName,0,Person.Sex.BOY,"幻想乡");
+			    Person or = new Person(bot,p.adminuin,p.adminname,0,Person.Sex.GIRL,"幻想乡");
+				GroupMemberPack pck = new GroupMemberPack(g,GroupMemberPack.Type.kick,bt,or);
+				q.onMemberMsg(pck);
+				} catch (Exception e) {
+					PluginMsg lo= new PluginMsg();
+					lo.type = -1;
+					lo.addMsg("msg",e.getMessage());
+					send(lo);
+				}
 			}
 			
 			if (p.type == PluginMsg.TYPE_SYS_MSG) {
 				if (p.status == 84) {
 					
-					Group g = new Group(bot,p.uin,p.groupName);
+					Group g = new Group(bot,p.groupid,p.groupName);
 					Person m = new Person(bot,p.uin,p.uinName,6,Person.Sex.BOY,null);
 					GroupEnterAPI a = new GroupEnterAPI() {
 
@@ -195,7 +216,32 @@ public class PluginProcessing extends Service
 		q = new QIScript();
 		return stub;
 	}
-
+	
+	
+	public static MsgCollection getMsg(PluginMsg m) {
+		MsgCollection c = new MsgCollection();
+		for (Map<String,ArrayList<String>> map : m.data) {
+			for (Map.Entry<String,ArrayList<String>> entry : map.entrySet()){
+				if (entry.getKey().equals("msg")) {
+					c.putText(entry.getValue().get(0));
+				}
+				if (entry.getKey().equals("img")) {
+					c.putImage(entry.getValue().get(0));
+				}
+				if (entry.getKey().equals("xml")) {
+					c.putxml(entry.getValue().get(0));
+				}
+				if (entry.getKey().equals("json")) {
+					c.putJson(entry.getValue().get(0));
+				}
+				if (entry.getKey().equals("face")) {
+					c.putText("[表情id]:" + entry.getValue().get(0));
+				}
+			}
+		}
+		
+		return c;
+	}
 
 }
 
