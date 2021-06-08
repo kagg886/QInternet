@@ -7,4 +7,5 @@ public interface MsgIterator
     void onXml(String xml);
     void onJson(String json);
 	void onPtt(String pttUrl);
+	void onAt(long at);
 }
