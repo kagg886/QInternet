@@ -31,7 +31,6 @@ import kagg886.qinternet.Message.GroupMemberApplicationPack;
 import kagg886.qinternet.Message.GroupMsgPack;
 import kagg886.qinternet.Message.MsgCollection;
 import kagg886.qinternet.QInternet;
-import kagg886.qinternet.Message.GroupMemberEnterPack;
 import kagg886.qinternet.Message.GroupMemberPack;
 import kagg886.qinternet.exceptions.IllegalInputVarException;
 
@@ -55,7 +54,7 @@ public class PluginProcessing extends Service
 				q.onFriendMsg(k);
 			}
 		    if (p.type == PluginMsg.TYPE_GROUP_MSG) {
-				Group g = new Group(bot,p.groupid,p.groupName);
+		        Group g = new Group(bot,p.groupid,p.groupName);
 				Member m = ((GroupAPI) QInternet.getAPI(bot,QInternet.APIType.GROUPAPI)).getMember(p.groupid,p.uin);
 				MsgCollection c = getMsg(p);
 				GroupMsgPack gp = new GroupMsgPack(g,m,c);
@@ -66,8 +65,13 @@ public class PluginProcessing extends Service
 				try {
 				Group g = new Group(bot,p.groupid,p.groupName);
 				Person bt = new Person(bot,p.uin,p.uinName,0,Person.Sex.BOY,"幻想乡");
-			    Person or = new Person(bot,p.adminuin,p.adminname,0,Person.Sex.GIRL,"幻想乡");
-				GroupMemberPack pck = new GroupMemberPack(g,GroupMemberPack.Type.kick,bt,or);
+				GroupMemberPack pck = null;
+			    if (p.adminuin != 0 ) {
+					Person or = new Person(bot,p.adminuin,p.adminname,0,Person.Sex.GIRL,"幻想乡");
+					pck = new GroupMemberPack(g,GroupMemberPack.Type.kick,bt,or);	
+				} else {
+					pck = new GroupMemberPack(g,GroupMemberPack.Type.leave,bt);
+				}
 				q.onMemberMsg(pck);
 				} catch (Exception e) {
 					PluginMsg lo= new PluginMsg();
@@ -78,6 +82,15 @@ public class PluginProcessing extends Service
 			}
 			
 			if (p.type == PluginMsg.TYPE_SYS_MSG) {
+				if (p.status == 33) {
+					Group g = new Group(bot,p.groupid,p.groupName);
+					Member bt = ((GroupAPI) QInternet.getAPI(bot,QInternet.APIType.GROUPAPI)).getMember(p.groupid,p.uin);
+					try {
+						GroupMemberPack pck = new GroupMemberPack(g, GroupMemberPack.Type.enter,bt);
+						q.onMemberMsg(pck);
+					} catch (IllegalInputVarException e) {}
+				}
+				
 				if (p.status == 84) {
 					
 					Group g = new Group(bot,p.groupid,p.groupName);
@@ -218,6 +231,14 @@ public class PluginProcessing extends Service
 	}
 	
 	
+	public static void log(String str) {
+		PluginMsg log = new PluginMsg();
+		log.type = -1;
+		log.addMsg("msg",str);
+		send(log);
+	}
+	
+	
 	public static MsgCollection getMsg(PluginMsg m) {
 		MsgCollection c = new MsgCollection();
 		for (Map<String,ArrayList<String>> map : m.data) {
@@ -236,6 +257,9 @@ public class PluginProcessing extends Service
 				}
 				if (entry.getKey().equals("face")) {
 					c.putText("[表情id]:" + entry.getValue().get(0));
+				}
+				if (entry.getKey().equals("at")) {
+					c.putAt(Long.parseLong(entry.getValue().get(0)));
 				}
 			}
 		}

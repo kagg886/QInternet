@@ -4,6 +4,9 @@ import com.QR.Plugin.PluginProcessing;
 import kagg886.qinternet.Interface.FriendAPI;
 import kagg886.qinternet.Interface.MsgIterator;
 import kagg886.qinternet.Message.MsgCollection;
+import kagg886.qinternet.Content.Member;
+import kagg886.qinternet.Interface.GroupAPI;
+import kagg886.qinternet.QInternet;
 
 public class QRFriendAPI implements FriendAPI {
 	private long qq;
@@ -22,11 +25,17 @@ public class QRFriendAPI implements FriendAPI {
 	}
 
 	@Override
-	public void sendMsg(long p1, MsgCollection p2) {
+	public void sendMsg(final long p1, MsgCollection p2) {
 		final PluginMsg m = new PluginMsg();
 		m.type = 1;
 		m.uin = p1;
 		p2.iterator(new MsgIterator() {
+
+				@Override
+				public void onAt(long p9) {
+					
+				}
+
 
 				@Override
 				public void onImage(String p1) {
