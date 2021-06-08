@@ -3,7 +3,6 @@ import kagg886.qinternet.Interface.QQMsgListener;
 import kagg886.qinternet.Message.GroupMsgPack;
 import kagg886.qinternet.exceptions.PermissionException;
 import kagg886.qinternet.Message.MsgCollection;
-import kagg886.qinternet.Message.GroupMemberEnterPack;
 import kagg886.qinternet.Message.GroupMemberPack;
 import kagg886.qinternet.Message.FriendMsgPack;
 import kagg886.qinternet.Message.GroupMemberApplicationPack;
