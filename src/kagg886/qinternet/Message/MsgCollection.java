@@ -22,28 +22,28 @@ public class MsgCollection extends JSONArray
         super(json);
     }
 	
-	public void putAt(long at) {
-		putElement(MsgType.at,String.valueOf(at));
+	public int putAt(long at) {
+		return putElement(MsgType.at,String.valueOf(at));
 	}
     
-	public void putPtt(String pttUrl) {
-		putElement(MsgType.ptt,pttUrl);
+	public int putPtt(String pttUrl) {
+		return putElement(MsgType.ptt,pttUrl);
 	}
 	
-    public void putText(String Text) {
-        putElement(MsgType.text,Text);
+    public int putText(String Text) {
+        return putElement(MsgType.text,Text);
     }
     
-	public void putJson(String json) {
-		putElement(MsgType.json,json);
+	public int putJson(String json) {
+		return putElement(MsgType.json,json);
 	}
 	
-	public void putxml(String xml) {
-		putElement(MsgType.xml,xml);
+	public int putxml(String xml) {
+		return putElement(MsgType.xml,xml);
 	}
 	
-    public void putImage(String imgUrl) {
-        putElement(MsgType.img,imgUrl);
+    public int putImage(String imgUrl) {
+        return putElement(MsgType.img,imgUrl);
     }
 	
 	public String getPtt() {
@@ -107,16 +107,33 @@ public class MsgCollection extends JSONArray
         }
         obj = null;
     }
+	
+	public void removeMsg(int HashTag) {
+		JSONObject obj;
+        for (int i = 0; i < this.length(); i++) {
+            try {
+                obj = this.getJSONObject(i);
+                if (obj.optInt("HashTag") == HashTag) {
+					this.remove(i);
+				}
+
+            } catch (JSONException e) {}
+        }
+	}
     
-	private void putElement(MsgType type,String Text) {
+	private int putElement(MsgType type,String Text) {
 		JSONObject obj = new JSONObject();
+		int tag = r.nextInt();
         try {
             obj.put("type", type.toString());
             obj.put("value",Text);
-            obj.put("HashTag",r.nextInt());
+            obj.put("HashTag",tag);
             this.put(obj);
-        } catch (JSONException e) {}
+        } catch (JSONException e) {
+			return -1;
+		}
 		obj = null;
+		return tag;
 	}
     
     private String search(MsgType msgType) {
