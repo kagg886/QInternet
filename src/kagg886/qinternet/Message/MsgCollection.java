@@ -6,10 +6,14 @@ import java.util.Random;
 import kagg886.qinternet.Interface.MsgIterator;
 import java.util.ArrayList;
 
-public class MsgCollection extends JSONArray
+public class MsgCollection extends JSONArray implements Cloneable
 {
     private static final Random r = new Random();
-	
+	private long fromReplyId = -1;
+	/*
+		fromReplyId->当此对象由转接器发送时，我们约定该值为此消息对应的id；
+		当此对象发送到转接器时，则约定该值为此消息将要回复的id
+	*/
 	public static enum MsgType {
 		text,img,xml,json,ptt,at;
 	}
@@ -17,10 +21,51 @@ public class MsgCollection extends JSONArray
 	public MsgCollection() {
 		super();
 	}
+
+	@Override
+	public boolean equals(Object o){
+		if (!(o instanceof MsgCollection)) {
+			return false;
+		}
+		MsgCollection clone = null,
+					  sample = (MsgCollection) o;
+		
+		try {
+			clone = (MsgCollection) this.clone();
+		} catch (CloneNotSupportedException e) {}
+		
+		if (clone.length() != sample.length()) {
+			return false;
+		}
+		for (int i = 0; i < clone.length(); i++) {
+			for (String b : new String[] {"type","value"}) {
+				if (clone.optJSONObject(i).opt(b).equals(sample.optJSONObject(i).opt(b))) {
+					continue;
+				}
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	
+	
+	public MsgCollection(long ReplyId) {
+		super();
+		this.fromReplyId = ReplyId;
+	}
 	
     public MsgCollection(String json) throws JSONException {
         super(json);
     }
+	
+	public void setFromReplyId(long rid) {
+		this.fromReplyId = rid;
+	}
+
+	public long getFromReplyId() {
+		return fromReplyId;
+	}
 	
 	public int putAt(long at) {
 		return putElement(MsgType.at,String.valueOf(at));
