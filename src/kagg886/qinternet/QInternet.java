@@ -9,7 +9,7 @@ import kagg886.qinternet.Interface.FriendAPI;
 public final class QInternet 
 {
 	public static final String Author =  "kagg886";
-	public static final String Version = "dev-20210622";
+	public static final String Version = "dev-20210716";
 	private static HashMap<Long,HashMap<Class,API>> apis = new HashMap<Long,HashMap<Class,API>>();  
 	
 	public static enum APIType {
