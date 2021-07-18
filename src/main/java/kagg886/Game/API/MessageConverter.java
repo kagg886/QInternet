@@ -9,12 +9,15 @@ import net.mamoe.mirai.message.data.At;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
+import net.mamoe.mirai.message.data.PlainText;
 import net.mamoe.mirai.message.data.SingleMessage;
 
 public class MessageConverter {
 	
 	public static MsgCollection MessageChainToMsgCollection (MessageChain c) {
 		MsgCollection p = new MsgCollection();
+		
+		p.putText(c.contentToString());
 		
 		c.stream().filter(At.class::isInstance).peek(new Consumer<SingleMessage>() {
 
@@ -33,12 +36,11 @@ public class MessageConverter {
 				p.putImage(i.getImageId());
 			}
 		});
-		
 		return p;
 	}
 	
 	public static MessageChain MsgCollectionToMessageChain(MsgCollection c) {
-		final MessageChain chain = new MessageChainBuilder().asMessageChain();
+		MessageChainBuilder chain = new MessageChainBuilder();
 		c.iterator(new MsgIterator() {
 			
 			public void onXml(String arg0) {
@@ -46,7 +48,7 @@ public class MessageConverter {
 			}
 			
 			public void onText(String arg0) {
-				chain.plus(arg0);
+				chain.add(arg0);
 				
 			}
 			
@@ -55,7 +57,6 @@ public class MessageConverter {
 			}
 			
 			public void onJson(String arg0) {
-				// TODO Auto-generated method stub
 				
 			}
 			
@@ -65,10 +66,10 @@ public class MessageConverter {
 			}
 			
 			public void onAt(long arg0) {
-				chain.plus(new At(arg0));
+				chain.add(new At(arg0));
 				
 			}
 		});
-		return chain;
+		return chain.build();
 	}
 }

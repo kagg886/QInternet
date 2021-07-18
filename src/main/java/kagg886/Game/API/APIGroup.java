@@ -1,6 +1,5 @@
 package kagg886.Game.API;
 
-import java.awt.print.PrinterAbortException;
 import java.util.ArrayList;
 
 import kagg886.qinternet.Content.Group;
@@ -78,7 +77,6 @@ public class APIGroup implements GroupAPI {
 	public void sendMsg(long arg0, MsgCollection arg1) {
 		MessageChain chain = MessageConverter.MsgCollectionToMessageChain(arg1);
 		bot.getGroup(arg0).sendMessage(chain);
-		
 	}
 
 	public void setAllmute(long arg0, boolean arg1) throws PermissionException {
