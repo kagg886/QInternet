@@ -9,10 +9,22 @@ import kagg886.qinternet.Message.GroupMsgPack;
 import kagg886.qinternet.QInternet.APIType;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.event.SimpleListenerHost;
+import net.mamoe.mirai.event.events.FriendAddEvent;
 import net.mamoe.mirai.event.events.FriendMessageEvent;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
+import net.mamoe.mirai.event.events.NewFriendRequestEvent;
 
 public class EventHandler extends SimpleListenerHost {
+	
+	@net.mamoe.mirai.event.EventHandler
+	public void onMessage(NewFriendRequestEvent event) {
+		event.accept();
+	}
+	
+	@net.mamoe.mirai.event.EventHandler
+	public void onMessage(FriendAddEvent event) {
+		event.getFriend().sendMessage("欢迎使用妖梦\n看到这条信息就证明我们是双向好友关系(");
+	}
 
 	@net.mamoe.mirai.event.EventHandler
 	public void onMessage(GroupMessageEvent event) {

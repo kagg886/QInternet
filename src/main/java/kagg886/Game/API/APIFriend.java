@@ -11,6 +11,7 @@ import net.mamoe.mirai.message.data.MessageChain;
 
 public class APIFriend implements FriendAPI {
 	private Bot bot;
+	public static long stamp;
 	public APIFriend(Bot n) {
 		this.bot = n;
 	}
@@ -24,7 +25,12 @@ public class APIFriend implements FriendAPI {
 	}
 
 	public Friend getFriend(long arg0) {
-		net.mamoe.mirai.contact.Friend friend = bot.getFriend(arg0);
+		net.mamoe.mirai.contact.Friend friend;
+		try {
+			friend = bot.getFriend(arg0);
+		} catch (Exception e) {
+			return null;
+		}
 		Friend friend1 = new Friend(getBotQQ(), friend.getId(), friend.getNick(),0, Sex.BOY, "幻想乡");
 		return friend1;
 	}

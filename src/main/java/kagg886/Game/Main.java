@@ -16,6 +16,8 @@ import net.mamoe.mirai.utils.BotConfiguration.MiraiProtocol;
 public class Main {
 
 	public static QQMsgListener listener;
+	private static final String jar = new File(new Main().getClass().getProtectionDomain().getCodeSource().getLocation().getPath())
+			.getParent();
 
 	public static void main(String[] args) throws Exception {
 		read();
@@ -23,8 +25,7 @@ public class Main {
 	}
 
 	private static void read() throws Exception {
-		String jarFile = new File(new Main().getClass().getProtectionDomain().getCodeSource().getLocation().getPath())
-				.getParent() + "\\Game.jar";
+		String jarFile = jar + "\\Game.jar";
 		File file = new File(jarFile);
 		System.out.println(file.toString());
 		URL url = file.toURL();
@@ -35,8 +36,18 @@ public class Main {
 	private static void Login() {
 		BotConfiguration c = new BotConfiguration();
 		c.setProtocol(MiraiProtocol.ANDROID_PHONE);
+		c.enableContactCache();
+		c.setCacheDir(new File("Cache"));
 		c.fileBasedDeviceInfo();
-		Bot bot = BotFactory.INSTANCE.newBot(1693256674L, "baleitem103", c);
+		
+		JSONStorage storage = null;
+		try {
+			storage = new JSONStorage(jar + "\\Config.json");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		Bot bot = BotFactory.INSTANCE.newBot(storage.optLong("qq"), storage.optString("pass"), c);
 		QInternet.initAPI(APIType.GROUPAPI, bot.getId(), new APIGroup(bot));
 		QInternet.initAPI(APIType.FRIENDAPI, bot.getId(), new APIFriend(bot));
 		bot.login();

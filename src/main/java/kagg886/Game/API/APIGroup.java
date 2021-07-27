@@ -17,6 +17,8 @@ import net.mamoe.mirai.message.data.MessageChain;
 public class APIGroup implements GroupAPI {
 	
 	private Bot bot;
+	public static ArrayList<Long> groups;
+	public static long stamp;
 	public APIGroup(Bot n) {
 		this.bot = n;
 	}
@@ -38,11 +40,15 @@ public class APIGroup implements GroupAPI {
 	}
 
 	public ArrayList<Long> getGroups() {
-		ArrayList<Long> longs = new ArrayList<Long>();
-		for (net.mamoe.mirai.contact.Group f : bot.getGroups()) {
-			longs.add(f.getId());
+		if (System.currentTimeMillis() - stamp >= 1200000) {
+			ArrayList<Long> longs = new ArrayList<Long>();
+			for (net.mamoe.mirai.contact.Group f : bot.getGroups()) {
+				longs.add(f.getId());
+			}
+			
+			groups = longs;
 		}
-		return longs;
+		return groups;
 	}
 
 	public Member getMember(long arg0, long arg1) {
