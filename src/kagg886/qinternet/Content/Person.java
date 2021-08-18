@@ -20,6 +20,10 @@ public class Person extends Content
 		this.sex = sex;
 		this.area = area;
 	}
+	
+	public void sendLike(int count) {
+		getMemberAPI().sendLike(0L,uin,count);
+	}
     
     public long getUin() {
         return uin;

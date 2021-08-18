@@ -35,9 +35,6 @@ public class Member extends Person
 		getMemberAPI().kick(groupid,uin);
 	}
 	
-	public void sendLike(int count) {
-		getMemberAPI().sendLike(0L,uin,count);
-	}
 	
 	public void setNick(String nick) throws PermissionException {
 		getMemberAPI().setNick(groupid,uin,nick);
