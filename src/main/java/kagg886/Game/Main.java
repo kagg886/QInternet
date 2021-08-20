@@ -2,6 +2,7 @@ package kagg886.Game;
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.LinkedList;
 
 import kagg886.Game.API.APIFriend;
 import kagg886.Game.API.APIGroup;
@@ -14,23 +15,26 @@ import net.mamoe.mirai.utils.BotConfiguration;
 import net.mamoe.mirai.utils.BotConfiguration.MiraiProtocol;
 
 public class Main {
-
-	public static QQMsgListener listener;
-	private static final String jar = new File(new Main().getClass().getProtectionDomain().getCodeSource().getLocation().getPath())
-			.getParent();
-
+	
+	public static LinkedList<QQMsgListener> pluginList;
+	
 	public static void main(String[] args) throws Exception {
+		pluginList = new LinkedList<QQMsgListener>();
 		read();
 		Login();
 	}
 
 	private static void read() throws Exception {
-		String jarFile = jar + "\\Game.jar";
-		File file = new File(jarFile);
-		System.out.println(file.toString());
-		URL url = file.toURL();
-		URLClassLoader loader = new URLClassLoader(new URL[] {url});
-		listener = (QQMsgListener) loader.loadClass("kagg886.game.Game").newInstance();
+		File g = new File("Plugin");
+		if (g.exists()) {
+			g.mkdirs();
+		}
+		
+		for (File plugin: g.listFiles()) {
+			URL url = plugin.toURL();
+			URLClassLoader loader = new URLClassLoader(new URL[] {url});
+			pluginList.add((QQMsgListener) loader.loadClass(plugin.getName().replace(".jar", "")).newInstance());
+		}
 	}
 
 	private static void Login() {
@@ -39,10 +43,10 @@ public class Main {
 		c.enableContactCache();
 		c.setCacheDir(new File("Cache"));
 		c.fileBasedDeviceInfo();
-		
+		long a = System.currentTimeMillis();
 		JSONStorage storage = null;
 		try {
-			storage = new JSONStorage(jar + "\\Config.json");
+			storage = new JSONStorage("Config.json");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

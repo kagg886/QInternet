@@ -44,7 +44,7 @@ public class APIFriend implements FriendAPI {
 	}
 
 	public void sendMsg(long arg0, MsgCollection arg1) {
-		MessageChain chain = MessageConverter.MsgCollectionToMessageChain(arg1);
+		MessageChain chain = MessageConverter.MsgCollectionToMessageChain(arg1,bot.getFriend(arg0));
 		bot.getFriend(arg0).sendMessage(chain);
 		
 	}

@@ -1,16 +1,18 @@
 package kagg886.Game.API;
 
 
+import java.io.File;
 import java.util.function.Consumer;
 
 import kagg886.qinternet.Interface.MsgIterator;
 import kagg886.qinternet.Message.MsgCollection;
+import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.message.data.At;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
-import net.mamoe.mirai.message.data.PlainText;
 import net.mamoe.mirai.message.data.SingleMessage;
+import net.mamoe.mirai.utils.ExternalResource;
 
 public class MessageConverter {
 	
@@ -19,7 +21,7 @@ public class MessageConverter {
 		
 		p.putText(c.contentToString());
 		
-		c.stream().filter(At.class::isInstance).peek(new Consumer<SingleMessage>() {
+		c.stream().filter(At.class::isInstance).forEach(new Consumer<SingleMessage>() {
 
 			@Override
 			public void accept(SingleMessage t) {
@@ -28,18 +30,18 @@ public class MessageConverter {
 			}
 		});
 		
-		c.stream().filter(Image.class::isInstance).peek(new Consumer<SingleMessage>() {
+		c.stream().filter(Image.class::isInstance).forEach(new Consumer<SingleMessage>() {
 
 			@Override
 			public void accept(SingleMessage t) {
 				Image i = (Image) t;
-				p.putImage(i.getImageId());
+				p.putImage(Image.queryUrl(i));
 			}
 		});
 		return p;
 	}
 	
-	public static MessageChain MsgCollectionToMessageChain(MsgCollection c) {
+	public static MessageChain MsgCollectionToMessageChain(MsgCollection c,Contact contact) {
 		MessageChainBuilder chain = new MessageChainBuilder();
 		c.iterator(new MsgIterator() {
 			
@@ -61,8 +63,7 @@ public class MessageConverter {
 			}
 			
 			public void onImage(String arg0) {
-				
-				
+				chain.add(ExternalResource.uploadAsImage(new File(arg0), contact));
 			}
 			
 			public void onAt(long arg0) {

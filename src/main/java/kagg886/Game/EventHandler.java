@@ -4,6 +4,7 @@ import kagg886.Game.API.MessageConverter;
 import kagg886.qinternet.QInternet;
 import kagg886.qinternet.Interface.FriendAPI;
 import kagg886.qinternet.Interface.GroupAPI;
+import kagg886.qinternet.Interface.QQMsgListener;
 import kagg886.qinternet.Message.FriendMsgPack;
 import kagg886.qinternet.Message.GroupMsgPack;
 import kagg886.qinternet.QInternet.APIType;
@@ -23,7 +24,7 @@ public class EventHandler extends SimpleListenerHost {
 	
 	@net.mamoe.mirai.event.EventHandler
 	public void onMessage(FriendAddEvent event) {
-		event.getFriend().sendMessage("欢迎使用妖梦\n看到这条信息就证明我们是双向好友关系(");
+		
 	}
 
 	@net.mamoe.mirai.event.EventHandler
@@ -37,7 +38,9 @@ public class EventHandler extends SimpleListenerHost {
 		} catch (Exception e) {
 			event.getBot().getLogger().debug("群消息构建异常");
 		}
-		Main.listener.onGroupMsg(pack);
+		for (QQMsgListener listener : Main.pluginList) {
+			listener.onGroupMsg(pack);
+		}
 	}
 
 	@net.mamoe.mirai.event.EventHandler
@@ -45,7 +48,9 @@ public class EventHandler extends SimpleListenerHost {
 		Bot bot = event.getBot();
 		FriendMsgPack pack = new FriendMsgPack(getAPIFriend(bot).getFriend(event.getSender().getId()),
 				MessageConverter.MessageChainToMsgCollection(event.getMessage()));
-		Main.listener.onFriendMsg(pack);
+		for (QQMsgListener listener : Main.pluginList) {
+			listener.onFriendMsg(pack);
+		}
 	}
 
 	private GroupAPI getAPIGroup(Bot b) {
