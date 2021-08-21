@@ -5,6 +5,9 @@ import kagg886.qinternet.Interface.GroupAPI;
 import kagg886.qinternet.Interface.MemberAPI;
 import java.util.HashMap;
 import kagg886.qinternet.Interface.FriendAPI;
+import java.util.Map;
+import java.util.LinkedList;
+import java.util.ArrayList;
 
 public final class QInternet 
 {
@@ -28,6 +31,15 @@ public final class QInternet
 		}
 	}
 	
+	public Long[] getBots() {
+		ArrayList<Long> list = new ArrayList<Long>();
+		for (Map.Entry<Long,HashMap<Class,API>> api: apis.entrySet()) {
+			list.add(api.getKey());
+		}
+		
+		return list.toArray(new Long[list.size()]);
+	}
+	
 	public static void initAPI(APIType type,long QQ,API api1) {
 		HashMap<Class,API> api = apis.get(QQ);
 		if (api == null) {
@@ -37,7 +49,7 @@ public final class QInternet
 		apis.put(QQ,api);
 	}
 	
-	public static <T extends API> T getAPI(long QQ,APIType type) {
+	public static <T extends API> T getAPI(APIType type, long QQ) {
 		HashMap <Class,API> api = apis.get(QQ);
 		return api==null ? null : (T) api.get(type.getDefaulClass());
 	}
