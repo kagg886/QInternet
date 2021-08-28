@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public final class QInternet 
 {
 	public static final String Author =  "kagg886";
-	public static final String Version = "dev-20210818";
+	public static final String Version = "dev-20210828";
 	private static HashMap<Long,HashMap<Class,API>> apis = new HashMap<Long,HashMap<Class,API>>();  
 	
 	public static enum APIType {

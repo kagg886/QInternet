@@ -1,7 +1,6 @@
 package kagg886.qinternet.Content;
-import kagg886.qinternet.Interface.MemberAPI;
+import kagg886.qinternet.Message.MsgCollection;
 import kagg886.qinternet.exceptions.PermissionException;
-import kagg886.qinternet.QInternet;
 public class Member extends Person
 {
 	protected long groupid;
@@ -39,4 +38,9 @@ public class Member extends Person
 	public void setNick(String nick) throws PermissionException {
 		getMemberAPI().setNick(groupid,uin,nick);
 	}
+	
+	public void sendMsg(MsgCollection c) {
+		getMemberAPI().sendTempMsg(groupid, uin, c);
+	}
+	
 }
