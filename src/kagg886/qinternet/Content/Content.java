@@ -3,23 +3,22 @@ import kagg886.qinternet.Interface.GroupAPI;
 import kagg886.qinternet.QInternet;
 import kagg886.qinternet.Interface.MemberAPI;
 import kagg886.qinternet.Interface.FriendAPI;
+import org.json.JSONObject;
+import org.json.JSONException;
 
-public class Content
+public class Content extends JSONObject
 {
-	protected long BotQQ;
-	public Content(long botQQ) {
-		this.BotQQ = botQQ;
+	public Content(QQBot botQQ) {
+		try {
+			super.put("botQQ", botQQ.getId());
+		} catch (JSONException e) {}
 	}
 	
-	public GroupAPI getGroupAPI() {
-		return QInternet.getAPI(QInternet.APIType.GROUPAPI,BotQQ);
+	public Content(String source) throws JSONException {
+		super(source);
 	}
 	
-	public MemberAPI getMemberAPI() {
-		return QInternet.getAPI(QInternet.APIType.MEMBERAPI,BotQQ);
-	}
-	
-	public FriendAPI getFriendAPI() {
-		return QInternet.getAPI(QInternet.APIType.FRIENDAPI,BotQQ);
+	public long getBotQQ() {
+		return optLong("botQQ");
 	}
 }

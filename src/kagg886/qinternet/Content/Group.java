@@ -3,35 +3,38 @@ import kagg886.qinternet.Interface.GroupAPI;
 import kagg886.qinternet.Message.MsgCollection;
 import kagg886.qinternet.exceptions.PermissionException;
 import kagg886.qinternet.QInternet;
+import org.json.JSONException;
 
 public class Group extends Content
 {
-    protected long groupId;
-    protected String groupName;
-    
-    public Group(long BotQQ,long g,String n) {
+	public Group(String source) throws JSONException {
+		super(source);
+	}
+    public Group(QQBot BotQQ,long g,String n) {
 		super(BotQQ);
-        this.groupId = g;
-        this.groupName = n;
+        try {
+			super.put("groupid", g);
+			super.put("groupname", n);
+		} catch (JSONException e) {}
     }
     
     public long getId() {
-        return groupId;
+        return super.optLong("groupid");
     }
     
     public String getName() {
-        return groupName;
+        return super.optString("groupname");
     }
 	
 	public void exit() {
-		getGroupAPI().exit(groupId);
+		QInternet.findBot(getBotQQ()).getGroupAPI().exit(getId());
 	}
 	
 	public void setMute(boolean status) throws PermissionException {
-		getGroupAPI().setAllmute(groupId,status);
+		QInternet.findBot(getBotQQ()).getGroupAPI().setAllmute(getId(),status);
 	}
 	
 	public void sendMsg(MsgCollection co) {
-		getGroupAPI().sendMsg(groupId,co);
+		QInternet.findBot(getBotQQ()).getGroupAPI().sendMsg(getId(),co);
 	}
 }

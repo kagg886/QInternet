@@ -128,23 +128,23 @@ public class MsgCollection extends JSONArray implements Cloneable
         for (int i = 0; i < this.length(); i++) {
             try {
                 obj = this.getJSONObject(i);
-                switch (obj.getString("type")) {
-                    case "text":
+                switch (MsgType.valueOf(obj.getString("type"))) {
+                    case text:
 						it.onText(obj.getString("value"));
                         break;
-                    case "json":
+                    case img:
 						it.onJson(obj.getString("value"));
                         break;
-                    case "xml":
+                    case xml:
 						it.onXml(obj.getString("value"));
                         break;
-                    case "img":
+                    case json:
 						it.onImage(obj.getString("value"));
 						break;
-					case "ptt":
+					case ptt:
 						it.onPtt(obj.getString("value"));
 						break;
-					case "at":
+					case at:
 						it.onAt(Long.parseLong(obj.getString("value")));
                 }
 

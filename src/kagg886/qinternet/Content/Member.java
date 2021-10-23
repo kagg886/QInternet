@@ -1,46 +1,46 @@
 package kagg886.qinternet.Content;
-import kagg886.qinternet.Message.MsgCollection;
+import kagg886.qinternet.Interface.MemberAPI;
 import kagg886.qinternet.exceptions.PermissionException;
+import kagg886.qinternet.QInternet;
+import org.json.JSONException;
 public class Member extends Person
 {
-	protected long groupid;
-    protected String nick;
     public static enum Permission {
         MEMBER,ADMIN,OWNER;
     }
+	
+	public Member(String source) throws JSONException {
+		super(source);
+	}
     
-    protected Permission p;
     
-    public Member(long botQQ,long groupid,long uin, String uinName,int age,Sex sex,String area,String nick,Permission p) {
-		super(botQQ,uin,uinName,age,sex,area);
-        this.p = p;
-        this.nick = nick;
-		this.groupid = groupid;
+    public Member(QQBot bot,long groupid,long uin, String uinName,int age,Sex sex,String area,String nick,Permission p) {
+		super(bot,uin,uinName,age,sex,area);
+		try {
+			super.put("groupid", groupid);
+			super.put("permission",p.toString());
+			super.put("nick",nick);
+		} catch (JSONException e) {}
     }
     
     public String getNick() {
-        return nick;
+        return super.optString("nick");
     }
     
     public Permission getPermission() {
-        return p;
+        return Permission.valueOf("permission");
     }
     
     public void mute(int second) throws PermissionException {
-		getMemberAPI().mute(groupid,uin,second);
+		QInternet.findBot(getBotQQ()).getMemberAPI().mute(super.optLong("group"),super.optLong("uin"),second);
 	}
 	
 	public void kick() throws PermissionException {
-		getMemberAPI().kick(groupid,uin);
+		QInternet.findBot(getBotQQ()).getMemberAPI().kick(super.optLong("group"),super.optLong("uin"));
 	}
 	
 	
 	public void setNick(String nick) throws PermissionException {
-		getMemberAPI().setNick(groupid,uin,nick);
+		QInternet.findBot(getBotQQ()).getMemberAPI().setNick(super.optLong("group"),super.optLong("uin"),nick);
 	}
-	
-	public void sendMsg(MsgCollection c) {
-		getMemberAPI().sendTempMsg(groupid, uin, c);
-	}
-	
 }

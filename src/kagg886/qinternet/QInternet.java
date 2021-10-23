@@ -8,49 +8,39 @@ import kagg886.qinternet.Interface.FriendAPI;
 import java.util.Map;
 import java.util.LinkedList;
 import java.util.ArrayList;
+import kagg886.qinternet.Content.QQBot;
 
 public final class QInternet 
 {
 	public static final String Author =  "kagg886";
-	public static final String Version = "dev-20210828";
-	private static HashMap<Long,HashMap<Class,API>> apis = new HashMap<Long,HashMap<Class,API>>();  
+	public static final String Version = "dev-20211023";
+	private static final ArrayList<QQBot> bots = new ArrayList<QQBot>();
 	
-	public static enum APIType {
-		GROUPAPI(GroupAPI.class),
-		MEMBERAPI(MemberAPI.class),
-		FRIENDAPI(FriendAPI.class);
-		
-		private Class clazz;
-		
-		private APIType(Class clazz) {
-			this.clazz = clazz;
+	public static boolean addBot(QQBot bot) {
+		for (QQBot instance : bots) {
+			if (bot.equals(instance)) {
+				return false;
+			}
 		}
-		
-		public Class getDefaulClass() {
-			return clazz;
-		}
+		bots.add(bot);
+		return true;
 	}
 	
-	public Long[] getBots() {
-		ArrayList<Long> list = new ArrayList<Long>();
-		for (Map.Entry<Long,HashMap<Class,API>> api: apis.entrySet()) {
-			list.add(api.getKey());
-		}
-		
-		return list.toArray(new Long[list.size()]);
+	public static boolean removeBot(QQBot bot) {
+		return bots.remove(bot);
 	}
 	
-	public static void initAPI(APIType type,long QQ,API api1) {
-		HashMap<Class,API> api = apis.get(QQ);
-		if (api == null) {
-			api = new HashMap<Class,API>();
+	public static QQBot findBot(long botQQ) {
+		for (QQBot instance : bots) {
+			if (instance.getId() == botQQ) {
+				return instance;
+			}
 		}
-		api.put(type.getDefaulClass(),api1);
-		apis.put(QQ,api);
+		return null;
 	}
 	
-	public static <T extends API> T getAPI(APIType type, long QQ) {
-		HashMap <Class,API> api = apis.get(QQ);
-		return api==null ? null : (T) api.get(type.getDefaulClass());
+	public static ArrayList<QQBot> getList() {
+		return bots;
 	}
+	
 }
