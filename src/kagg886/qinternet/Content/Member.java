@@ -1,6 +1,5 @@
 package kagg886.qinternet.Content;
 import kagg886.qinternet.Interface.MemberAPI;
-import kagg886.qinternet.exceptions.PermissionException;
 import kagg886.qinternet.QInternet;
 import org.json.JSONException;
 public class Member extends Person
@@ -31,16 +30,16 @@ public class Member extends Person
         return Permission.valueOf("permission");
     }
     
-    public void mute(int second) throws PermissionException {
-		QInternet.findBot(getBotQQ()).getMemberAPI().mute(super.optLong("group"),super.optLong("uin"),second);
+    public boolean mute(int second){
+		return QInternet.findBot(getBotQQ()).getMemberAPI().mute(super.optLong("group"),super.optLong("uin"),second);
 	}
 	
-	public void kick() throws PermissionException {
-		QInternet.findBot(getBotQQ()).getMemberAPI().kick(super.optLong("group"),super.optLong("uin"));
+	public boolean kick(){
+		return QInternet.findBot(getBotQQ()).getMemberAPI().kick(super.optLong("group"),super.optLong("uin"));
 	}
 	
 	
-	public void setNick(String nick) throws PermissionException {
-		QInternet.findBot(getBotQQ()).getMemberAPI().setNick(super.optLong("group"),super.optLong("uin"),nick);
+	public boolean setNick(String nick) {
+		return QInternet.findBot(getBotQQ()).getMemberAPI().setNick(super.optLong("group"),super.optLong("uin"),nick);
 	}
 }

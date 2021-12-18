@@ -1,7 +1,6 @@
 package kagg886.qinternet.Message;
 import kagg886.qinternet.Content.Group;
 import kagg886.qinternet.Content.Person;
-import kagg886.qinternet.exceptions.IllegalInputVarException;
 
 public class GroupMemberPack
 {
@@ -13,14 +12,14 @@ public class GroupMemberPack
 		enter,leave,kick,adminChange;
 	}
 	
-	public GroupMemberPack(Group g,Type p,Person... var) throws IllegalInputVarException {
+	public GroupMemberPack(Group g,Type p,Person... var) throws IllegalArgumentException {
 		this.group = g;
 		this.p = p;
 		
 		if ((p == Type.kick|| p == Type.adminChange) && var.length == 1) {
-			throw new IllegalInputVarException("If this pack's type is Type.kick or Type.adminChange, you must input two variables: the receiver and the original");
+			throw new IllegalArgumentException("If this pack's type is Type.kick or Type.adminChange, you must input two variables: the receiver and the original");
 		} else if ((p == Type.kick && var.length > 2) || (p != Type.kick && var.length >= 2)) {
-			throw new IllegalInputVarException("We don't allow this type to input multiple variables");
+			throw new IllegalArgumentException("We don't allow this type to input multiple variables");
 		}
 		
 		this.member = var;

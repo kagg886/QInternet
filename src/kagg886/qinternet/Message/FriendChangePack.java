@@ -1,7 +1,6 @@
 package kagg886.qinternet.Message;
 import kagg886.qinternet.Content.Person;
 import kagg886.qinternet.Interface.FriendChangeAPI;
-import kagg886.qinternet.exceptions.IllegalInputVarException;
 
 public class FriendChangePack
 {
@@ -28,17 +27,17 @@ public class FriendChangePack
 		return friend;
 	}
 	
-	public void agree() throws IllegalInputVarException {
+	public void agree(){
 		if (type != Type.addRequest) {
-			throw new IllegalInputVarException("This msg isn't belong to AddFriend!");
+			throw new IllegalArgumentException("This msg isn't belong to AddFriend!");
 		}
 		
 		api.agree();
 	}
 	
-	public void reject() throws IllegalInputVarException {
+	public void reject(){
 		if (type != Type.addRequest) {
-			throw new IllegalInputVarException("This msg isn't belong to AddFriend!");
+			throw new IllegalArgumentException("This msg isn't belong to AddFriend!");
 		}
 
 		api.reject();

@@ -1,19 +1,12 @@
 package kagg886.qinternet;
 
-import kagg886.qinternet.Interface.API;
-import kagg886.qinternet.Interface.GroupAPI;
-import kagg886.qinternet.Interface.MemberAPI;
-import java.util.HashMap;
-import kagg886.qinternet.Interface.FriendAPI;
-import java.util.Map;
-import java.util.LinkedList;
 import java.util.ArrayList;
 import kagg886.qinternet.Content.QQBot;
 
 public final class QInternet 
 {
 	public static final String Author =  "kagg886";
-	public static final String Version = "dev-20211023";
+	public static final String Version = "dev-20211218";
 	private static final ArrayList<QQBot> bots = new ArrayList<QQBot>();
 	
 	public static boolean addBot(QQBot bot) {

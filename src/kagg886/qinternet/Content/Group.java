@@ -1,7 +1,6 @@
 package kagg886.qinternet.Content;
 import kagg886.qinternet.Interface.GroupAPI;
 import kagg886.qinternet.Message.MsgCollection;
-import kagg886.qinternet.exceptions.PermissionException;
 import kagg886.qinternet.QInternet;
 import org.json.JSONException;
 
@@ -30,8 +29,8 @@ public class Group extends Content
 		QInternet.findBot(getBotQQ()).getGroupAPI().exit(getId());
 	}
 	
-	public void setMute(boolean status) throws PermissionException {
-		QInternet.findBot(getBotQQ()).getGroupAPI().setAllmute(getId(),status);
+	public boolean setMute(boolean status){
+		return QInternet.findBot(getBotQQ()).getGroupAPI().setAllmute(getId(),status);
 	}
 	
 	public void sendMsg(MsgCollection co) {

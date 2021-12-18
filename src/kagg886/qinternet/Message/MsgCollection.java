@@ -48,7 +48,14 @@ public class MsgCollection extends JSONArray implements Cloneable
 		return true;
 	}
 	
-	
+	public boolean containMsgType(MsgType type) {
+        for (int i = 0; i < this.length(); i++) {
+            if (this.optJSONObject(i).optString("type").equals(type)) {
+            	return true;
+            }
+        }
+        return false;
+	}
 	
 	public MsgCollection(long ReplyId) {
 		super();
@@ -133,13 +140,13 @@ public class MsgCollection extends JSONArray implements Cloneable
 						it.onText(obj.getString("value"));
                         break;
                     case img:
-						it.onJson(obj.getString("value"));
+						it.onImage(obj.getString("value"));
                         break;
                     case xml:
 						it.onXml(obj.getString("value"));
                         break;
                     case json:
-						it.onImage(obj.getString("value"));
+						it.onJson(obj.getString("value"));
 						break;
 					case ptt:
 						it.onPtt(obj.getString("value"));
