@@ -1,38 +1,43 @@
 package kagg886.qinternet.Message;
 
-public class MsgSpawner
-{
-	/*
-		生成一个纯文本消息。
-	*/
+public class MsgSpawner {
 	public static MsgCollection newPlainText(String... text) {
 		MsgCollection c = new MsgCollection();
-		for (String s : text) {
+		byte b;
+		int i;
+		String[] arrayOfString;
+		for (i = (arrayOfString = text).length, b = 0; b < i; ) {
+			String s = arrayOfString[b];
 			c.putText(s);
+			b++;
 		}
 		return c;
 	}
-	
-	/*
-	 	生成一个带AT的消息
-	*/
-	public static MsgCollection newAtToast(long qq,String... text) {
+
+	public static MsgCollection newAtToast(long qq, String... text) {
 		MsgCollection c = new MsgCollection();
 		c.putAt(qq);
 		c.putText("\n");
-		for (String s : text) {
+		byte b;
+		int i;
+		String[] arrayOfString;
+		for (i = (arrayOfString = text).length, b = 0; b < i; ) {
+			String s = arrayOfString[b];
 			c.putText(s);
+			b++;
 		}
 		return c;
 	}
-	
-	/*
-		生成一个回复消息
-	*/
-	public static MsgCollection newReply(MsgCollection source,String... text) {
+
+	public static MsgCollection newReply(MsgCollection source, String... text) {
 		MsgCollection c = new MsgCollection(source.getFromReplyId());
-		for (String s : text) {
+		byte b;
+		int i;
+		String[] arrayOfString;
+		for (i = (arrayOfString = text).length, b = 0; b < i; ) {
+			String s = arrayOfString[b];
 			c.putText(s);
+			b++;
 		}
 		return c;
 	}
