@@ -6,7 +6,7 @@ import kagg886.qinternet.Content.QQBot;
 public final class QInternet {
 	public static final String Author = "kagg886";
 
-	public static final String Version = "dev-20221204";
+	public static final String Version = "dev-20230206";
 
 	private static final ArrayList<QQBot> bots = new ArrayList<QQBot>();
 

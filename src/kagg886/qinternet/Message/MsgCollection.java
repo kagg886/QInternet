@@ -50,7 +50,7 @@ public class MsgCollection extends JSONArray implements Cloneable
 	
 	public boolean containMsgType(MsgType type) {
         for (int i = 0; i < this.length(); i++) {
-            if (this.optJSONObject(i).optString("type").equals(type)) {
+            if (this.optJSONObject(i).optString("type").equals(type.toString())) {
             	return true;
             }
         }
