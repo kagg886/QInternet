@@ -1,14 +1,19 @@
 package kagg886.qinternet;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import kagg886.qinternet.Content.QQBot;
 
 public final class QInternet {
 	public static final String Author = "kagg886";
 
-	public static final String Version = "dev-20230206";
+	public static final String Version = "dev-20230210";
 
-	private static final ArrayList<QQBot> bots = new ArrayList<QQBot>();
+	private static final List<QQBot> bots = new CopyOnWriteArrayList<>();
 
 	public static boolean addBot(QQBot bot) {
 		for (QQBot instance : bots) {
@@ -31,7 +36,7 @@ public final class QInternet {
 		return null;
 	}
 
-	public static ArrayList<QQBot> getList() {
+	public static List<QQBot> getList() {
 		return bots;
 	}
 }
